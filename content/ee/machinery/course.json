@@ -1,0 +1,16 @@
+{
+  "id": "machinery",
+  "notes": [
+    {
+      "id": "ch01",
+      "order": 1,
+      "title": "Ch.1 電機機械原理導論",
+      "path": "notes/ch01-machinery-principles.md",
+      "updated": "2026-11-15"
+    }
+  ],
+  "exams": {
+    "midterm": [],
+    "final": []
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "department": "ee",
+  "defaultCategory": "required",
+  "courses": [
+    {
+      "id": "machinery",
+      "name": "電機機械",
+      "en": "Electric Machinery",
+      "category": "required",
+      "keywords": ["磁路", "變壓器", "標么值", "法拉第定律", "直流機", "磁阻"]
+    },
+    {
+      "id": "signals",
+      "name": "訊號與系統",
+      "en": "Signals and Systems",
+      "category": "elective",
+      "keywords": ["LTI", "傅立葉", "摺積", "頻譜", "通訊系統"]
+    },
+    {
+      "id": "digital-design",
+      "name": "數位系統設計",
+      "en": "Digital System Design",
+      "category": "elective",
+      "keywords": ["Verilog", "FPGA", "有限狀態機", "testbench", "ModelSim"]
+    }
+  ]
+}
