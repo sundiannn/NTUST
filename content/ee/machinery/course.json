@@ -7,6 +7,27 @@
       "title": "Ch.1 電機機械原理導論",
       "path": "notes/ch01-machinery-principles.md",
       "updated": "2026-11-15"
+    },
+    {
+      "id": "ch02",
+      "order": 2,
+      "title": "Ch.2 變壓器",
+      "path": "notes/ch02-transformers.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch03",
+      "order": 3,
+      "title": "Ch.3 交流電機基礎",
+      "path": "notes/ch03-ac-machine-fundamentals.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch04",
+      "order": 4,
+      "title": "Ch.4 同步發電機",
+      "path": "notes/ch04-synchronous-generators.md",
+      "updated": "2026-11-15"
     }
   ],
   "exams": {

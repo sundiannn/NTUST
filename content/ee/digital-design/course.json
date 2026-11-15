@@ -1,6 +1,35 @@
 {
   "id": "digital-design",
-  "notes": [],
+  "notes": [
+    {
+      "id": "ch01",
+      "order": 1,
+      "title": "Ch.1–3 邏輯設計基礎回顧",
+      "path": "notes/ch01-logic-design-review.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch04",
+      "order": 4,
+      "title": "Ch.4 Verilog 邏輯設計入門",
+      "path": "notes/ch04-verilog-intro.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch06",
+      "order": 6,
+      "title": "Ch.6 組合與循序邏輯的合成",
+      "path": "notes/ch06-logic-synthesis.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch07",
+      "order": 7,
+      "title": "Ch.7 資料路徑控制器的設計與合成",
+      "path": "notes/ch07-datapath-controller.md",
+      "updated": "2026-11-15"
+    }
+  ],
   "exams": {
     "midterm": [],
     "final": []

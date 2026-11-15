@@ -1,6 +1,112 @@
 {
   "id": "communications",
-  "notes": [],
+  "notes": [
+    {
+      "id": "ch01",
+      "order": 1,
+      "title": "Ch.1 通訊系統導論",
+      "path": "notes/ch01-introduction.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch02",
+      "order": 2,
+      "title": "Ch.2 訊號與線性系統複習",
+      "path": "notes/ch02-signals-linear-systems.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch03",
+      "order": 3,
+      "title": "Ch.3 MATLAB/Simulink 通訊系統模擬",
+      "path": "notes/ch03-matlab-simulink.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch04",
+      "order": 4,
+      "title": "Ch.4 振幅調變",
+      "path": "notes/ch04-amplitude-modulation.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch05",
+      "order": 5,
+      "title": "Ch.5 角度調變",
+      "path": "notes/ch05-angle-modulation.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch06",
+      "order": 6,
+      "title": "Ch.6 機率與隨機過程",
+      "path": "notes/ch06-probability-random-processes.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch07",
+      "order": 7,
+      "title": "Ch.7 類比通訊系統的雜訊性能",
+      "path": "notes/ch07-analog-noise-performance.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch08",
+      "order": 8,
+      "title": "Ch.8 類比訊號轉換為數位格式",
+      "path": "notes/ch08-analog-to-digital.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch09",
+      "order": 9,
+      "title": "Ch.9 數位基頻調變",
+      "path": "notes/ch09-digital-baseband-modulation.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch10",
+      "order": 10,
+      "title": "Ch.10 雜訊中的基頻訊號偵測",
+      "path": "notes/ch10-baseband-detection.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch11",
+      "order": 11,
+      "title": "Ch.11 數位載波調變",
+      "path": "notes/ch11-digital-carrier-modulation.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch12",
+      "order": 12,
+      "title": "Ch.12 時間色散通道的數位傳輸",
+      "path": "notes/ch12-time-dispersive-channels.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch13",
+      "order": 13,
+      "title": "Ch.13 數位多工與同步",
+      "path": "notes/ch13-multiplexing-synchronization.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch14",
+      "order": 14,
+      "title": "Ch.14 資訊理論與壓縮技術",
+      "path": "notes/ch14-information-theory.md",
+      "updated": "2026-11-15"
+    },
+    {
+      "id": "ch15",
+      "order": 15,
+      "title": "Ch.15 通道編碼技術",
+      "path": "notes/ch15-channel-coding.md",
+      "updated": "2026-11-15"
+    }
+  ],
   "exams": {
     "midterm": [],
     "final": []
