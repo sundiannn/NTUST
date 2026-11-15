@@ -1,0 +1,13 @@
+﻿# 原始講義與考卷：僅供本機 AI 整理使用，不可上傳（AGENTS.md 第 3.1 節）
+_sources/
+
+# 原始檔格式一律忽略
+*.pdf
+*.ppt
+*.pptx
+*.doc
+*.docx
+
+# 系統檔
+.DS_Store
+Thumbs.db
