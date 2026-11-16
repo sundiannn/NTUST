@@ -1,8 +1,6 @@
 # Ch.5 角度調變
 
-> 依據：老師講義 Chapter 5 Angle Modulation（5.1–5.8）｜更新：2026-11-15
-
-<!-- TODO: 待確認：講義 PDF 為掃描檔，本次只能讀到 OCR 文字；5.5.4 二階 PLL 的雜訊等效頻寬 B_N 閉式解，以及表 5.4（各種迴路濾波器參數總表）在文字擷取中缺漏或無法辨識，尚未整理。 -->
+> 依據：老師講義 Chapter 5 Angle Modulation（5.1–5.8）｜更新：2026-11-17
 
 ## 重點摘要
 
@@ -152,13 +150,13 @@ $$
 
 $$
 \Delta\psi = -\frac{\pi}{2} + K_1(f_i - f_c), \qquad
-y(t) \approx \frac{K_m K_0 A_c^2}{2}K_1\,\Delta f_{max}\,s_n(t)
+y(t) \approx \frac{K_m K_2 A_c^2}{2}K_1\,\Delta f_{max}\,s_n(t)
 $$
 
 | 符號 | 意義 | 單位 |
 |---|---|---|
 | $K_1$ | 相移網路在 $f_c$ 附近的斜率 | rad/Hz |
-| $K_0$ | 相移網路常數 | — |
+| $K_2$ | 相移網路常數 | — |
 | $K_m$ | 混頻器增益常數 | — |
 
 > FM 收音機 IF 為 10.7 MHz。
@@ -228,7 +226,26 @@ $$
 | $\zeta$ | 阻尼係數（damping factor） | — |
 | $\tau_1, \tau_2$ | PI 濾波器時間常數 | s |
 
+**雜訊等效頻寬**（noise-equivalent bandwidth）：
+
+$$
+B_N = \int_0^{\infty}|H(f)|^2\,df \;\xrightarrow{\text{主動 PI}}\; B_N = \frac{\omega_n}{8\zeta} + \frac{\omega_n\zeta}{2}
+$$
+
+| 符號 | 意義 | 單位 |
+|---|---|---|
+| $B_N$ | 雜訊等效頻寬 | Hz |
+
 > $\zeta = 0.707$（二階 Butterworth）時 $\omega_{3dB} \approx 2.06\,\omega_n$，是平坦度與安定時間的折衷。$\zeta < 1$ 有振盪、越小過衝越大；相位步階的誤差以時間常數 $1/(\zeta\omega_n)$ 衰減。
+
+**各種迴路濾波器總表（表 5.4）：**
+
+| 迴路 | $F(s)$ | $\omega_n$ | $\zeta$ | $H(s)$ | $B_N$ |
+|---|---|---|---|---|---|
+| 一階 | $1$ | $K$ | — | $\dfrac{K}{s + K}$ | $\dfrac{K}{4}$ |
+| 二階 lag（two-pole） | $\dfrac{1}{1 + s\tau_1}$ | $\sqrt{K/\tau_1}$ | $\dfrac{1}{2\sqrt{K\tau_1}}$ | $\dfrac{\omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}$ | $\dfrac{K}{4}$ 或 $\dfrac{\omega_n}{8\zeta}$ |
+| 二階主動 PI | $\dfrac{1 + s\tau_2}{s\tau_1}$ | $\sqrt{K/\tau_1}$ | $\dfrac{\tau_2}{2}\sqrt{K/\tau_1}$ | $\dfrac{2\zeta\omega_n s + \omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}$ | $\dfrac{\omega_n}{8\zeta} + \dfrac{\omega_n\zeta}{2}$ |
+| 二階主動 lead-lag | $\dfrac{1 + s\tau_2}{1 + s\tau_1}$ | $\sqrt{K/\tau_1}$ | $\dfrac{1}{2}\sqrt{\dfrac{K}{\tau_1}}\left(\tau_2 + \dfrac{1}{K}\right)$ | $\dfrac{s\omega_n(2\zeta - \omega_n/K) + \omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}$ | $\dfrac{\omega_n}{8\zeta} + \dfrac{\omega_n(2\zeta K - \omega_n)^2}{8K^2\zeta}$ |
 
 **穩態相位誤差（表 5.5）：**
 
@@ -266,14 +283,14 @@ $$
 ### 5.8 類比電視
 
 $$
-N_v = 0.7(N - N_{vr}), \qquad N_h = A\,N_v, \qquad f_{max} = \frac{N_h}{2(t_h - t_{hb})}
+N_v = 0.7(N - N_{vb}), \qquad N_h = A\,N_v, \qquad f_{max} = \frac{N_h}{2(t_h - t_{hb})}
 $$
 
 | 符號 | 意義 | 單位 |
 |---|---|---|
 | $N_v$ | 有效垂直解析度（0.7 為 Kell factor） | 線 |
 | $N$ | 每框總掃描線數 | 線 |
-| $N_{vr}$ | 垂直回掃損失的線數 | 線 |
+| $N_{vb}$ | 垂直回掃損失的線數 | 線 |
 | $A$ | 長寬比（aspect ratio） | — |
 | $t_h$ | 一條水平掃描線總時間 | s |
 | $t_{hb}$ | 水平遮沒（blanking）時間 | s |
@@ -312,18 +329,18 @@ $$
 1. 寫出 $\Theta_{in}(s)$：相位步階 $\Delta\phi/s$；頻率步階（相位斜坡）$\Delta\omega/s^2$。
 2. $\Theta_e(s) = \Theta_{in}(s)H_e(s)$，穩態用終值定理。
 3. 要控制電壓時：$V_e(s) = K_{PD}\Theta_e(s)$，再做反拉氏轉換。
-4. 例 5.6（一階）：$K_{VCO} = 2\pi \times 10^8$、$K_{PD} = 0.8$、輸入由 500 跳到 550 MHz → $K = 1.6\pi \times 10^8$ s⁻¹，$v_e(t) = \dfrac{K_{PD}\Delta\omega}{K}(1 - e^{-Kt}) = 0.5(1 - e^{-Kt})$ V（AI 計算，未經核對）。
+4. 例 5.6（一階）：$K_{VCO} = 2\pi \times 10^8$、$K_{PD} = 0.8$、輸入由 500 跳到 550 MHz → $K = 1.6\pi \times 10^8$ s⁻¹，$v_e(t) = \dfrac{K_{PD}\Delta\omega}{K}(1 - e^{-Kt}) = 0.5(1 - e^{-Kt})$ V。
 5. 例 5.7（GSM 換頻 200 kHz、要穩定到 100 Hz 內、3-dB 頻寬 20 kHz、$\zeta = 0.707$）：安定時間約 0.171 ms。
 
 ### 題型五：PLL 解調 FM（例 5.8）
 
 1. 由 $\beta$、$f_m$ 求 $k_f = \Delta f = \beta f_m$（假設訊息峰值為 1）。
 2. 代入 5.6 節的 $V_{cont}(j\omega)$，在 $\omega = 2\pi f_m$ 求增益與相位。
-3. 例 5.8：$\beta = 50$、$f_m = 10$ Hz、$K_{PD} = 0.5$、$K_{VCO} = 1000\pi$ → $v_{cont}(t) \approx \cos(20\pi t - 2.3^\circ)$（AI 計算，未經核對）。
+3. 例 5.8：$\beta = 50$、$f_m = 10$ Hz、$K_{PD} = 0.5$、$K_{VCO} = 1000\pi$ → $v_{cont}(t) \approx \cos(20\pi t - 2.3^\circ)$。
 
 ### 題型六：電視解析度與頻寬
 
-1. $N_v = 0.7(N - N_{vr})$，注意每**場**損失的線數要乘 2 才是每框。
+1. $N_v = 0.7(N - N_{vb})$，注意每**場**損失的線數要乘 2 才是每框。
 2. $N_h = A N_v$。
 3. $f_{max} = N_h / [2(t_h - t_{hb})]$（一個正弦週期顯示一黑一白兩個像素，所以除以 2）。
 

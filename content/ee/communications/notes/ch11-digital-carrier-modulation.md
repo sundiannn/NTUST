@@ -1,6 +1,6 @@
 # Ch.11 數位載波調變
 
-> 依據：老師講義 Chapter 11 Digital Information Transmission Using Carrier Modulation（11.1–11.11）｜更新：2026-11-15
+> 依據：老師講義 Chapter 11 Digital Information Transmission Using Carrier Modulation（11.1–11.11）｜更新：2026-11-17
 
 ## 重點摘要
 
@@ -204,7 +204,7 @@ $$
 $I$、$Q$ 各是一個 $\sqrt{M}$-ary PAM，$a\in\{\pm1,\pm3,\dots,\pm(\sqrt{M}-1)\}$：
 
 $$
-C_s=\sqrt{\frac{3}{2(M-1)}},\qquad \mathbf{s}_{mn}=(a_m^1C_s\sqrt{E_s},\ a_n^2C_s\sqrt{E_s}),\qquad d_{min}=2C_s\sqrt{E_s}
+C_o=\sqrt{\frac{3}{2(M-1)}},\qquad \mathbf{s}_{mn}=(a_m^1C_o\sqrt{E_s},\ a_n^2C_o\sqrt{E_s}),\qquad d_{min}=2C_o\sqrt{E_s}
 $$
 
 $$
@@ -214,7 +214,7 @@ $$
 
 | 符號 | 意義 | 單位 |
 |---|---|---|
-| $C_s$ | 正規化常數（16-QAM 時 $=1/\sqrt{10}$，星座點在 $\pm\sqrt{E_s/10}$、$\pm3\sqrt{E_s/10}$） | — |
+| $C_o$ | 正規化常數（16-QAM 時 $=1/\sqrt{10}$，星座點在 $\pm\sqrt{E_s/10}$、$\pm3\sqrt{E_s/10}$） | — |
 | $M$ | 星座點數（方形星座 $M=4^n$） | — |
 
 > 推導：$P_c=(1-P_{\sqrt M})^2\Rightarrow P_s\approx2P_{\sqrt M}$，$P_{\sqrt M}$ 是 $\sqrt M$-PAM 的符號錯誤率。
@@ -232,16 +232,23 @@ $$
 
 > 帶通訊號頻譜＝基頻 $I$、$Q$ 頻譜往 $\pm f_c$ 平移後相加（假設 $I$、$Q$ 獨立且至少一個平均為 0）。
 
-零點對零點頻寬（矩形脈波，位元率 $R_b$）：
+各方式頻寬與 BER 總表（講義 Table 11.4；零點對零點用矩形脈波，絕對頻寬用滾降 $\alpha$ 的 RC 脈波）：
 
-| 方式 | $B_{null\text{-}null}$ | 用 RC 脈波（滾降 $\alpha$）的 $B_{abs}$ | 備註 |
-|---|---|---|---|
-| BASK | $2R_b$ | $(1+\alpha)R_b$ | 頻譜有載波脈衝 |
-| BPSK | $2R_b$ | $(1+\alpha)R_b$ | 無載波分量，較省功率 |
-| QPSK／OQPSK | $R_b$ | $(1+\alpha)R_b/2$ | 兩者頻譜相同 |
-| MSK | $1.5R_b$ | $3(1+\alpha)R_b/4$ | 主瓣較寬但旁瓣衰減快 |
-| $M$-PSK、$M$-QAM | $2R_b/\log_2M$ | — | |
-| Sunde's FSK | $3R_b$（也有人用 $R_b$） | — | 有 $f_c\pm R_b/2$ 的頻譜脈衝，四次方滾降 |
+| 方式 | $B_{null\text{-}null}$ | $B_{abs\text{-}abs}$ | 同調偵測 BER | 非同調偵測 BER |
+|---|---|---|---|---|
+| ASK | $2R_b$ | $R_b(1+\alpha)$ | $Q(\sqrt{E_b/N_0})$ | $0.5e^{-E_b/2N_0}$ |
+| BPSK | $2R_b$ | $R_b(1+\alpha)$ | $Q(\sqrt{2E_b/N_0})$ | 需同調偵測 |
+| Sunde's FSK | $3R_b$ | — | $Q(\sqrt{E_b/N_0})$ | $0.5e^{-E_b/2N_0}$ |
+| DBPSK | $2R_b$ | $R_b(1+\alpha)$ | — | $0.5e^{-E_b/N_0}$ |
+| QPSK／OQPSK | $R_b$ | $R_b(1+\alpha)/2$ | $Q(\sqrt{2E_b/N_0})$ | 需同調偵測 |
+| MSK | $1.5R_b$ | $3R_b(1+\alpha)/4$ | $Q(\sqrt{2E_b/N_0})$ | 需同調偵測 |
+| $M$-PSK（$M>4$） | $2R_b/\log_2M$ | $R_b(1+\alpha)/\log_2M$ | $\frac{2}{\log_2M}Q\big(\sqrt{2\log_2M\sin^2(\pi/M)E_b/N_0}\big)$ | 需同調偵測 |
+| $M$-DPSK（$M>4$） | $2R_b/\log_2M$ | $R_b(1+\alpha)/2\log_2M$ | — | $\frac{2}{\log_2M}Q\big(\sqrt{4\log_2M\sin^2(\pi/2M)E_b/N_0}\big)$ |
+| $M$-QAM（方形星座） | $2R_b/\log_2M$ | $R_b(1+\alpha)/\log_2M$ | $\frac{4}{\log_2M}\big(1-\frac{1}{\sqrt M}\big)Q\big(\sqrt{\frac{3\log_2M}{M-1}\frac{E_b}{N_0}}\big)$ | 需同調偵測 |
+| $M$-FSK 同調 | $(M+3)R_b/2\log_2M$ | — | $\frac{M-1}{\log_2M}Q\big(\sqrt{(\log_2M)E_b/N_0}\big)$ | — |
+| $M$-FSK 非同調 | $2MR_b/\log_2M$ | — | — | $\frac{M-1}{2\log_2M}0.5e^{-(\log_2M)E_b/2N_0}$ |
+
+> BASK 頻譜有載波脈衝；BPSK 無載波分量，較省功率；QPSK 與 OQPSK 頻譜相同；MSK 主瓣較寬但旁瓣衰減快；Sunde's FSK 有 $f_c\pm R_b/2$ 的頻譜脈衝。例 11.5 指出 Sunde's FSK 若改用 $B_{null\text{-}null}=R_b$ 的定義，100 kHz 可傳 100 kbps。
 
 $$
 \eta=\frac{R_b}{B_T}\quad\text{bit/s/Hz}
@@ -259,11 +266,24 @@ $$
 | 方式 | 相對頻寬 | $E_b/N_0$ 代價公式 |
 |---|---|---|
 | $M$-PSK | $1/\log_2M$ | $-10\log_{10}\!\left[\log_2M\sin^2(\pi/M)\right]$ |
-| $M$-DPSK | $1/\log_2M$ | $-10\log_{10}\!\left[2\log_2M\sin^2(\pi/2M)\right]$ |
+| $M$-DPSK（$M\ge4$） | $1/\log_2M$ | $-10\log_{10}\!\left[2\log_2M\sin^2(\pi/2M)\right]$ |
 | $M$-QAM | $1/\log_2M$ | $10\log_{10}\!\left[\dfrac{2(M-1)}{3\log_2M}\right]$ |
 
-> 代價數值：8-PSK 3.57 dB、16-PSK 8.17 dB；DQPSK 2.32 dB、8-DPSK 6.41 dB、16-DPSK 11.14 dB；8-QAM 1.92 dB、16-QAM 3.98 dB、64-QAM 8.45 dB。講義表中 BPSK 的基準 $E_b/N_0$ 為 8.4 dB。
-<!-- TODO: 待確認：Table 11.5 掃描檔中基準 BER 的指數看不清（推測為 10^-4），256-QAM 那一列數值也模糊，未列出。Table 11.4（各方式頻寬與 BER 總表）整頁旋轉、無法辨識，以上表格改由 11.10 節內文與例 11.5 整理。 -->
+講義 Table 11.5 數值（BER $=10^{-4}$）：
+
+| 方式 | 相對頻寬 | 代價（dB） | 所需 $E_b/N_0$（dB） |
+|---|---|---|---|
+| BPSK | 1 | 0 | 8.4 |
+| QPSK／MSK | 1/2 | 0 | 8.4 |
+| 8-PSK | 1/3 | 3.57 | 11.97 |
+| 16-PSK | 1/4 | 8.17 | 16.57 |
+| DQPSK | 1/2 | 2.32 | 10.72 |
+| 8-DPSK | 1/3 | 6.41 | 14.81 |
+| 16-DPSK | 1/4 | 11.14 | 19.54 |
+| 8-QAM | 1/3 | 1.92 | 10.32 |
+| 16-QAM | 1/4 | 3.98 | 12.38 |
+| 64-QAM | 1/6 | 8.45 | 16.85 |
+| 256-QAM | 1/8 | 13.27 | 21.67 |
 
 ## 解題技巧
 
@@ -282,11 +302,11 @@ $$
 
 ### 題型二：比較 $M$-ary 方式所需 SNR/bit（例 11.4）
 
-1. BER 公式前的係數先移到右邊：8-PSK 為 $\tfrac23Q(\cdot)$ → $Q(x)=1.5\times10^{-6}$；16-PSK 為 $\tfrac12Q(\cdot)$ → $Q(x)=2\times10^{-6}$；16-QAM 為 $\tfrac34Q(\cdot)$；64-QAM 為 $\tfrac{7}{12}Q(\cdot)$ → $Q(x)=1.714\times10^{-6}$。
+1. BER 公式前的係數先移到右邊：8-PSK 為 $\tfrac23Q(\cdot)$ → $Q(x)=1.5\times10^{-6}$；16-PSK 為 $\tfrac12Q(\cdot)$ → $Q(x)=2\times10^{-6}$；16-QAM 為 $\tfrac34Q(\cdot)$ → $Q(x)=1.333\times10^{-6}$；64-QAM 為 $\tfrac{7}{12}Q(\cdot)$ → $Q(x)=1.714\times10^{-6}$。
 2. 查表得 $x$，再由 $x^2=(\text{係數})\times E_b/N_0$ 解出 $E_b/N_0$。
 
-> 對答案用：BPSK／QPSK／OQPSK／MSK 10.53 dB、8-PSK 13.94 dB、16-PSK 18.44 dB。
-<!-- TODO: 待確認：例 11.4 中 16-QAM 與 64-QAM 的最終 dB 值在掃描檔中看不清，未列出。 -->
+> 對答案用（$Q^{-1}$ 查表值：4.75、4.67、4.61、4.7、4.64）：BPSK／QPSK／OQPSK／MSK 10.53 dB、8-PSK 13.94 dB、16-PSK 18.44 dB、16-QAM 15.38 dB（講義值）、64-QAM 18.77 dB。
+<!-- TODO: 待確認：例 11.4(d)（講義 p.658，verify/ch11/p067.png）先寫 BER=¾Q(√(0.8E_b/N_0))，下一步卻寫 4.7²=0.64E_b/N_0（把 0.8 又平方），得 15.38 dB；若照 0.8 計算應為 22.09/0.8≈27.6≈14.41 dB。講義本身前後不一致，請對照老師解答。 -->
 
 ### 題型三：給頻寬求最大位元率（例 11.5、11.6）
 

@@ -1,6 +1,6 @@
 # Ch.4 振幅調變
 
-> 依據：老師講義 Chapter 4 Amplitude Modulation（4.1–4.10、附錄 4A）｜更新：2026-11-15
+> 依據：老師講義 Chapter 4 Amplitude Modulation（4.1–4.10、附錄 4A）｜更新：2026-11-17
 
 ## 重點摘要
 
@@ -327,7 +327,9 @@ $$
 3. 例 4.15（AM 廣播 540～1600 kHz、IF 455 kHz）：高側 LO 995～2055 kHz（比值約 2），低側 85～1145 kHz（比值約 14），所以 AM 收音機用**高側注入**。
 4. FDM 通道數：$(總頻寬 - 保護帶)/通道間隔$。例 4.14（AMPS）：$(25\text{ MHz} - 2 \times 10\text{ kHz})/30\text{ kHz} = 832$，扣掉 21 個控制通道剩 811 個使用者通道。
 
-> 例 4.12 北美 FDM 階層：group 12 路（60–108 kHz）、supergroup 60 路（312–552 kHz）、mastergroup 600 路（564–3084 kHz）、jumbogroup 3600 路（564–17,548 kHz）；每路語音 3.4 kHz，配置 4 kHz。
+> 例 4.12 北美 FDM 階層：group 12 路（60–108 kHz）、supergroup 60 路（312–552 kHz）、mastergroup 600 路（564–3084 kHz）、jumbogroup 3600 路（564–17,548 kHz，依表 4.1）；每路語音 3.4 kHz，配置 4 kHz。
+<!-- TODO: 待確認：jumbogroup 路數講義自相矛盾——例 4.12 內文寫 3840 路（6 個 mastergroup + 4 個 supergroup ＝ 3600 + 240），表 4.1 寫 3600 路，且表 4.1 該列名稱誤植為 Supergroup（verify/ch04/p047.png，課本 p.187）。 -->
+
 
 ## 常見陷阱
 

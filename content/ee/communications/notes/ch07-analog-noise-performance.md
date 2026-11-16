@@ -1,6 +1,6 @@
 # Ch.7 類比通訊系統的雜訊性能
 
-> 依據：老師講義 Chapter 7 Noise Performance of Analog Communication Systems（7.1–7.6）｜更新：2026-11-15
+> 依據：老師講義 Chapter 7 Noise Performance of Analog Communication Systems（7.1–7.6）｜更新：2026-11-17
 
 ## 重點摘要
 
@@ -120,7 +120,7 @@ $$
 | $D$ | 偏移比（deviation ratio），$\Delta f_{max}/B$ | — |
 | $B_T$ | 傳輸（預檢波濾波器）頻寬，卡森法則（Carson's rule） | Hz |
 
-> 高 CNR 時雜訊造成的相位 $\phi_n(t) \approx \dfrac{e_n(t)\sin[\phi_n(t)-\theta(t)]}{\alpha A_c}$，與訊號振幅成**反比**：訊號越強、雜訊越小，這是角度調變特有的「雜訊抑制」。
+> 高 CNR 時雜訊造成的相位誤差 $\phi_e(t) \approx \dfrac{e_n(t)\sin[\phi_n(t)-\theta(t)]}{\alpha A_c}$，與訊號振幅成**反比**：訊號越強、雜訊越小，這是角度調變特有的「雜訊抑制」。
 
 **PM 輸出 SNR**
 
@@ -179,9 +179,15 @@ $$
 > 💡 補充說明（AI）：$30D^2(D+1)$ 是把 $\text{CNR}_{IN} = 20(D+1)$ 代入 $3D^2\overline{s_n^2}\,\text{CNR}_{IN}$，並取 $\overline{s_n^2} = 0.5$ 得到的（$3 \times 0.5 \times 20 = 30$）。
 
 - 臨界時鑑頻器輸出開始出現**尖波（spikes）**，聽起來像喀喀聲（click）；相量 $r_1(t)$ 繞原點一圈，相位變 $2\pi$。
-- 講義另有臨界附近的一般化 SNR 公式（7.102），可退化回 (7.94)。
+- 臨界附近的一般化 SNR 公式（弦波調變，式 7.102）；高於臨界時分母趨近 1，退化回 (7.94)：
 
-<!-- TODO: 待確認：式 (7.102) 臨界附近 FM 輸出 SNR 的完整公式在文字擷取中破損，無法確認分子分母與指數項，暫不列出。 -->
+$$
+\text{SNR}_{FM} = \frac{\tfrac{3}{2}\beta^2\,\text{CNR}_{IN}}{1 + \dfrac{12\beta}{\pi}\,\text{CNR}_{IN}\,e^{-\text{CNR}_{IN}/[2(1+\beta)]}}
+$$
+
+| 符號 | 意義 | 單位 |
+|---|---|---|
+| $\beta$ | FM 調變指數（單音時 $D = \beta$） | — |
 
 ### 7.4 預強調與解強調
 
@@ -190,7 +196,7 @@ H_{DE}(f) = \frac{1}{1 + j(f/f_1)}, \qquad f_1 = \frac{1}{2\pi\tau},\ \tau = RC
 $$
 
 $$
-P_{n,DE} = 2\left(\frac{K_{FD}}{\alpha A_c}\right)^2N_0f_1^2\left[B - f_1\tan^{-1}\frac{B}{f_1}\right] \approx 2\left(\frac{K_{FD}}{\alpha A_c}\right)^2N_0f_1^2B \quad (B/f_1 \gg 1)
+P_{n_o} = 2\left(\frac{K_{FD}}{A_c}\right)^2N_0f_1^3\left[\frac{B}{f_1} - \tan^{-1}\frac{B}{f_1}\right] \approx 2\left(\frac{K_{FD}}{A_c}\right)^2N_0f_1^2B \quad (B/f_1 \gg 1)
 $$
 
 $$
@@ -207,23 +213,23 @@ $$
 | $f_1$ | 解強調濾波器的 3 dB 頻率 | Hz |
 | $\tau$ | RC 時間常數 | s |
 
+> 講義在 7.4 節推導時把載波振幅寫成 $A_c$（不帶 $\alpha$），對應 $\text{CNR}_{IN} = A_c^2/(2N_0B)$。
+
 > 預強調（高通）在發射端放大高頻、解強調（低通）在接收端還原，兩者對訊息沒有影響；但解強調會壓低拋物線形雜訊的高頻部分，所以 SNR 提升。
 
 ### 7.5 類比調變比較（Table 7.1 重點）
 
-| 調變 | 傳輸頻寬 | SNR 優值 | 解調器 |
-|---|---|---|---|
-| 基頻 | $B$ | 1 | — |
-| DSB-SC | $2B$ | 1 | 同調 |
-| 傳統 AM | $2B$ | $\eta$ | 包絡檢波（便宜） |
-| SSB | $B$ | 1 | 同調 |
-| VSB | $B + f_v$ | 1 | 同調 |
-| VSB+C | $B + f_v$ | $\eta$ | 包絡檢波 |
-| PM | $2(\Delta\phi_{max}+1)B$ | $(\Delta\phi_{max})^2\overline{s_n^2}$ | — |
-| FM | $2(D+1)B$ | $3D^2\overline{s_n^2}$ | — |
-| FM＋預強調 | $2(D+1)B$ | $D^2(B/f_1)^2\overline{s_n^2}$ | — |
-
-<!-- TODO: 待確認：Table 7.1 文字擷取欄位錯位，「設備複雜度」與「備註」欄無法逐列對應，表中僅整理頻寬與 SNR 優值，VSB 的 f_v/B 約 0.2～0.3。 -->
+| 調變 | 傳輸頻寬 | SNR 優值 | 設備複雜度 | 備註 |
+|---|---|---|---|---|
+| 基頻 | $B$ | 1 | 低 | 短距離點對點鏈路 |
+| DSB-SC | $2B$ | 1 | 中；需同調解調 | — |
+| 傳統 AM | $2B$ | $\eta \le 1$ | 低；用包絡檢波 | 廣播用低成本接收機 |
+| SSB | $B$ | 1 | 高；需同調解調 | — |
+| VSB | $B + f_v$（$f_v/B \approx 0.2$～$0.3$） | 1 | 高；需同調解調 | VSB 濾波器複雜 |
+| VSB+C | $B + f_v$（$f_v/B \approx 0.2$～$0.3$） | $\eta \le 1$ | 中；用包絡檢波 | 廣播用低成本接收機 |
+| PM | $2(\Delta\phi_{max}+1)B$ | $(\Delta\phi_{max})^2\overline{s_n^2}$ | 中 | 某些訊號型態需 $\Delta\phi_{max} \le \pi$ |
+| FM | $2(D+1)B$ | $3D^2\overline{s_n^2}$ | 中 | $\text{CNR}_{IN}$ 需高於臨界值 |
+| FM＋預強調 | $2(D+1)B$ | $D^2(B/f_1)^2\overline{s_n^2}$ | 中；$f_1$ 為解強調濾波器 3 dB 頻率 | $\text{CNR}_{IN}$ 需高於臨界值 |
 
 ### 7.6 鏈路設計
 
@@ -272,7 +278,7 @@ $$
 3. 代入 $\text{CNR}_{IN}$ 公式（單音、$m_a = 1$ → $m_a^2\overline{s_n^2} = 0.5$）：$2 \times 4.605 \times 1.5 \approx 13.8$。
 4. 換到檢波器輸入：$\text{CNR}_{PD} = \text{CNR}_{IN} - 3$ dB；結論是臨界約在 $\text{CNR}_{PD}$ 10 dB 左右。
 
-<!-- TODO: 待確認：例 7.2 講義寫 13.8 = 12.4 dB、(CNR_PD)th = 9.4 dB，但 10log10(13.8) ≈ 11.4 dB，需對照原始講義確認。 -->
+<!-- TODO: 待確認：課本式 (7.61)（p.388，verify/ch07/p018.png）印「2 × 4.605 × 1.5 = 13.8 = 12.4 dB」，式 (7.63) 再得 (CNR_PD)th = 12.4 − 3 = 9.4 dB；但 10log10(13.8) ≈ 11.4 dB，照算應為 8.4 dB。課本本身數字不一致（結論「約 10 dB 或以下」不受影響），待老師確認。 -->
 
 ### 題型三：FM 系統設計（例 7.6）
 
@@ -290,6 +296,8 @@ $$
 
 > 對答案用：商用 FM 廣播 $B = 15$ kHz、$\tau = 75\ \mu$s → $f_1 \approx 2.1$ kHz、$B/f_1 = 7.14$、改善約 12.3 dB。
 
+<!-- TODO: 待確認：例 7.7（p.407，verify/ch07/p037.png）算式寫 20log10(7.5) − 4.77 = 12.3 dB，但 20log10(7.5) − 4.77 ≈ 12.7 dB；用 B/f1 = 7.14 才得 12.3 dB，課本的 7.5 疑為筆誤。 -->
+
 ### 題型五：鏈路長度與中繼器串接（例 7.8、7.9）
 
 1. 由 SNR 規格求 $\text{CNR}_{IN}$（FM 用 dB 式：$\text{SNR} = \text{CNR}_{IN} + 10\log_{10}(D^2\overline{s_n^2}) + 4.77$）。
@@ -297,10 +305,11 @@ $$
 3. 系統增益 $= P_T - P_R$，除以每公里（或每 100 ft）衰減得跨距。
 4. 有 $M$ 段中繼：每段要設計成 $\text{CNR}_{sys} + 10\log_{10}M$（例：4 段、系統 50 dB → 每段 56 dB）。
 
-> 例 7.9（CATV，$NF = 9.5$ dB、$G = 30$ dB、$B_N = 4$ MHz）對答案用：單段 $(\text{CNR}_{out})_1 = P_R + 128.46$，跨距約 3077 ft；20 段串接 $P_R = -34.68$ dBm、每段約 2100 ft、總長約 8.4 英里。
+> 例 7.8（$\Delta f_{max} = 4$ MHz、$B = 4.2$ MHz → $D \approx 1$、$\overline{s_n^2} = 0.5$、SNR 50 dB、$P_T = 1$ W、2 dB/km）課本答案：$\text{SNR}_{FM} = \text{CNR}_{IN} + 1.77$ dB → $\text{CNR}_{IN} = 48.23$ dB，系統增益 54.46 dB、跨距約 27 km（數字疑點見下方 TODO）。
+> 例 7.9（CATV，$NF = 9.5$ dB、$G = 30$ dB、$B_N = 4$ MHz、$P_T = -6.75$ dBm、SNR 48 dB、VSB+C $m_a = 0.85$、$\eta = 0.265$、電纜 1.33 dB/100 ft）對答案用：課本 $\text{CNR}_{IN} = 50.78$ dB；單段 $(\text{CNR}_{out})_1 = P_R + 128.46$，$P_R = -47.68$ dBm、系統增益 40.93 dB、跨距約 3077 ft；20 段串接 $P_R = -34.68$ dBm、每段約 2100 ft、總長約 8.4 英里。
 
-<!-- TODO: 待確認：例 7.8 講義寫 P_R = −5.54 dBW = −24.46 dBm，但 −5.54 dBW 應為 +24.46 dBm，後續系統增益 54.46 dB、跨距 27 km 可能受影響，需對照原始講義。 -->
-<!-- TODO: 待確認：例 7.9 講義寫 CNR_IN = 48 + 2.78 = 50.78 dB，但 η = 0.265 時 −10log10(η) ≈ 5.77 dB，數字不一致，需對照原始講義。 -->
+<!-- TODO: 待確認：例 7.8（p.410，verify/ch07/p040.png）課本寫 P_R = 48.23 − 53.767 = −5.54 dBW = −24.46 dBm，再以系統增益 = 30 + 24.46 = 54.46 dB、跨距 54.46/2 ≈ 27 km；但 −5.54 dBW 應換算為 +24.46 dBm，照此系統增益只剩 5.54 dB（約 2.8 km）。課本本身前後不一致，待老師確認。 -->
+<!-- TODO: 待確認：例 7.9（p.414，verify/ch07/p044.png）式 (7.131) 寫 CNR_IN = 48 − 10log10(η) = 48 + 2.78 = 50.78 dB，但 η = 0.265 時 −10log10(η) ≈ 5.77 dB（應約 53.77 dB）；後續 P_R、跨距 3077 ft／2100 ft 皆沿用 50.78 dB。課本本身數字不一致，待老師確認。 -->
 
 ## 常見陷阱
 

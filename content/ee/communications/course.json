@@ -27,63 +27,63 @@
       "order": 4,
       "title": "Ch.4 振幅調變",
       "path": "notes/ch04-amplitude-modulation.md",
-      "updated": "2026-11-15"
+      "updated": "2026-11-17"
     },
     {
       "id": "ch05",
       "order": 5,
       "title": "Ch.5 角度調變",
       "path": "notes/ch05-angle-modulation.md",
-      "updated": "2026-11-15"
+      "updated": "2026-11-17"
     },
     {
       "id": "ch06",
       "order": 6,
       "title": "Ch.6 機率與隨機過程",
       "path": "notes/ch06-probability-random-processes.md",
-      "updated": "2026-11-15"
+      "updated": "2026-11-17"
     },
     {
       "id": "ch07",
       "order": 7,
       "title": "Ch.7 類比通訊系統的雜訊性能",
       "path": "notes/ch07-analog-noise-performance.md",
-      "updated": "2026-11-15"
+      "updated": "2026-11-17"
     },
     {
       "id": "ch08",
       "order": 8,
       "title": "Ch.8 類比訊號轉換為數位格式",
       "path": "notes/ch08-analog-to-digital.md",
-      "updated": "2026-11-15"
+      "updated": "2026-11-17"
     },
     {
       "id": "ch09",
       "order": 9,
       "title": "Ch.9 數位基頻調變",
       "path": "notes/ch09-digital-baseband-modulation.md",
-      "updated": "2026-11-15"
+      "updated": "2026-11-17"
     },
     {
       "id": "ch10",
       "order": 10,
       "title": "Ch.10 雜訊中的基頻訊號偵測",
       "path": "notes/ch10-baseband-detection.md",
-      "updated": "2026-11-15"
+      "updated": "2026-11-17"
     },
     {
       "id": "ch11",
       "order": 11,
       "title": "Ch.11 數位載波調變",
       "path": "notes/ch11-digital-carrier-modulation.md",
-      "updated": "2026-11-15"
+      "updated": "2026-11-17"
     },
     {
       "id": "ch12",
       "order": 12,
       "title": "Ch.12 時間色散通道的數位傳輸",
       "path": "notes/ch12-time-dispersive-channels.md",
-      "updated": "2026-11-15"
+      "updated": "2026-11-17"
     },
     {
       "id": "ch13",

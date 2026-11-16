@@ -1,6 +1,6 @@
 # Ch.10 雜訊中的基頻訊號偵測
 
-> 依據：老師講義 Chapter 10 Detection of Baseband Signals in Noise（10.1–10.7）｜更新：2026-11-15
+> 依據：老師講義 Chapter 10 Detection of Baseband Signals in Noise（10.1–10.7）｜更新：2026-11-17
 
 ## 重點摘要
 
@@ -107,7 +107,7 @@ $$
 | 正交（orthogonal） | $A^2T_b=2E_b$ | $A^2T_b/2$ | $Q\big(\sqrt{E_b/N_0}\big)$ |
 | 雙極 NRZ（bipolar） | — | $E_1/2$ | $\tfrac{3}{2}Q\big(\sqrt{E_b/N_0}\big)$ |
 
-> 反極性用 RC 低通濾波器時：$\text{BER}_{RC}=Q\big(\sqrt{2\times0.8154\,E_b/N_0}\big)$，同樣比 MF 差 0.89 dB。
+> 反極性用 RC 低通濾波器時：$\text{BER}_{RC}=Q\big(\sqrt{1.63\,E_b/N_0}\big)$（$1.63\approx2\times0.8154$），同樣比 MF 差 0.89 dB。
 > 反極性要達到 BER $=10^{-6}$ 約需 $E_b/N_0\approx 10.5$ dB。
 > 雙極訊號：送 1 時交替送 $\pm v(t)$，送 0 時不送；比較器有兩個門檻 $\pm E_1/2$，$E_1$ 為 $v(t)$ 的能量。
 
@@ -231,7 +231,7 @@ $$
 ### 10.7 $M$-ary PAM 的錯誤率
 
 $$
-E_s=\frac{C_s^2E_s(M^2-1)}{3}\Rightarrow C_s=\sqrt{\frac{3}{M^2-1}},\qquad
+E_s=\frac{C_o^2E_s(M^2-1)}{3}\Rightarrow C_o=\sqrt{\frac{3}{M^2-1}},\qquad
 d_{min}=\sqrt{\frac{12E_s}{M^2-1}}
 $$
 
@@ -242,7 +242,7 @@ $$
 
 | 符號 | 意義 | 單位 |
 |---|---|---|
-| $C_s$ | 讓平均能量等於 $E_s$ 的正規化常數 | — |
+| $C_o$ | 讓平均能量等於 $E_s$ 的正規化常數 | — |
 
 > 端點只有 1 個鄰居、內部 $M-2$ 點有 2 個鄰居，精確計算後發現 $M$-PAM 的**最近鄰近似就是精確值**（$K=M-1$）。
 > 相對反極性的 SNR/bit 代價為 $10\log_{10}\dfrac{M^2-1}{3\log_2M}$ dB；$M$ 每加倍約多 4 dB。例如 $M$ 變 4 倍，位元率變 3 倍，但要多約 8 dB（發射功率約 6.3 倍）。

@@ -1,6 +1,6 @@
 # Ch.12 時間色散通道的數位傳輸
 
-> 依據：老師講義 Chapter 12 Digital Signal Transmission Through Time Dispersive Channels（12.1–12.8）｜更新：2026-11-15
+> 依據：老師講義 Chapter 12 Digital Signal Transmission Through Time Dispersive Channels（12.1–12.8）｜更新：2026-11-17
 
 ## 重點摘要
 
@@ -116,15 +116,25 @@ $$
 | $P_{RC}(f)$ | 升餘弦頻譜 | — |
 | $H_c(f)$ | 通道頻率響應 | — |
 
-二元反極性的錯誤率：
+二元反極性的錯誤率（做法二，取樣值 $y_k=a_k+n_k$，$a_k=\pm A$）：
 
 $$
-\text{BER}=Q\!\left(\sqrt{\frac{2E_b}{N_0}}\Bigg/\int_{-W}^{W}\frac{P_{RC}(f)}{|H_c(f)|}\,df\right)
+\sigma^2=\frac{N_0}{2}\int_{-W}^{W}\left|\frac{P_{RC}(f)}{H_c(f)}\right|df,\qquad
+E_b=A^2\int_{-W}^{W}\left|\frac{P_{RC}(f)}{H_c(f)}\right|df,\qquad
+\text{BER}=Q\!\left(\frac{A}{\sigma}\right)
+$$
+
+$$
+\text{BER}=Q\!\left(\left[\int_{-W}^{W}\left|\frac{P_{RC}(f)}{H_c(f)}\right|df\right]^{-1}\sqrt{\frac{2E_b}{N_0}}\right)
 \ \xrightarrow{\text{理想通道}}\ Q\!\left(\sqrt{\frac{2E_b}{N_0}}\right)
 $$
 
-> 分母積分代表雜訊放大造成的 SNR/bit 損失；理想通道時 $\int P_{RC}\,df=1$，結果與無限頻寬的反極性訊號相同。
-<!-- TODO: 待確認：(12.53) 在掃描文字中嚴重亂碼，上式是依講義「理想通道時積分為 1、與反極性相同」及做法二的濾波器推回的形式，請對照原講義確認積分是否帶平方或開根號。 -->
+| 符號 | 意義 | 單位 |
+|---|---|---|
+| $\sigma^2$ | 取樣點雜訊變異數 | V² |
+| $A$ | 發送振幅 | V |
+
+> 雜訊放大造成的 SNR/bit 損失為 $10\log_{10}\Big[\big(\int_{-W}^{W}\lvert P_{RC}/H_c\rvert\,df\big)^{-2}\Big]$ dB；理想通道時 $\int_{-W}^{W}P_{RC}\,df=1$，結果與無限頻寬的反極性訊號相同。
 
 ### 12.4 部分響應（雙二元）訊號
 
@@ -166,11 +176,18 @@ $$
 > 不預編碼時要用 $\hat{a}_k=y_k-\hat{a}_{k-1}$，前一個判錯會**錯誤傳播**；預編碼後只看當下的 $|y_k|$，就沒有錯誤傳播。
 
 $$
-\sigma_n^2=\frac{2N_0}{\pi},\qquad E_b=\frac{4A^2}{\pi},\qquad
-\text{BER}=\frac{3}{2}Q\!\left(\frac{\pi}{4}\sqrt{\frac{2E_b}{N_0}}\right)
+\sigma_n^2=N_0T\int_{-1/2T}^{1/2T}\lvert\cos(\pi fT)\rvert\,df=\frac{2N_0}{\pi},\qquad
+E_b=A^2\,2T\int_{-1/2T}^{1/2T}\lvert\cos(\pi fT)\rvert\,df=\frac{4A^2}{\pi}\ \Rightarrow\ A=\sqrt{\frac{\pi E_b}{4}}
 $$
 
-<!-- TODO: 待確認：(12.77)、(12.81) 的 σ² 與 E_b 在掃描文字中亂碼，上面兩式是由 |H_R|²=2T|cos(πfT)| 積分推回，與最終 BER 式及 2.1 dB 結論一致，請對照原講義。 -->
+$$
+\text{BER}=\frac{3}{2}Q\!\left(\frac{A}{\sigma_n}\right)=\frac{3}{2}Q\!\left(\frac{\pi}{4}\sqrt{\frac{2E_b}{N_0}}\right)
+$$
+
+| 符號 | 意義 | 單位 |
+|---|---|---|
+| $\sigma_n^2$ | 接收濾波器輸出雜訊變異數（講義式 12.77） | V² |
+| $E_b$ | 每位元能量（講義式 12.80） | J |
 
 > 和反極性 $Q(\sqrt{2E_b/N_0})$ 比，多需要 $(4/\pi)^2$，約 **2.1 dB**；原因是逐符號偵測沒有利用樣本間的相關性。
 
@@ -285,19 +302,19 @@ $$
 
 $$
 \sigma_{eq}^2=\frac{N_0}{2}\sum_{i=-N}^{N}c_i^2=\frac{N_0}{2}\eta_{NE},\qquad
-\eta_{ISI}=p_{eq}[0]-\sum_{n\ne0}|p_{eq}[n]|
+\xi_{ISI}=p_{eq}[0]-\sum_{n\ne0}|p_{eq}[n]|
 $$
 
 $$
-\text{BER}\le Q\!\left(\sqrt{\frac{2E_b\,\eta_{ISI}^2}{N_0\,\eta_{NE}}}\right)
+\text{BER}\le Q\!\left(\sqrt{\frac{2E_b\,\xi_{ISI}^2}{N_0\,\eta_{NE}}}\right)
 $$
 
 | 符號 | 意義 | 單位 |
 |---|---|---|
 | $\eta_{NE}$ | 雜訊放大因子（noise enhancement factor） | — |
-| $\eta_{ISI}$ | 等化後最壞情況的眼睛張開度 | — |
+| $\xi_{ISI}$ | 等化後最壞情況的眼睛張開度 | — |
 
-> 這是一個寬鬆上界（把殘餘 ISI 用峰值失真代入）；較精確的 BER 要對所有符號序列平均（Monte Carlo 模擬）。最壞情況的 SNR/bit 代價由 $\eta_{ISI}$ 與 $\eta_{NE}$ 決定。
+> 這是一個寬鬆上界（把殘餘 ISI 用峰值失真代入）；較精確的 BER 要對所有符號序列平均（Monte Carlo 模擬）。最壞情況的 SNR/bit 代價由 $\xi_{ISI}$ 與 $\eta_{NE}$ 決定。
 
 ## 解題技巧
 

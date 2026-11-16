@@ -1,6 +1,6 @@
 # Ch.8 類比訊號轉換為數位格式
 
-> 依據：老師講義 Chapter 8 Conversion of Analog Signals to Digital Format（8.1–8.9）｜更新：2026-11-15
+> 依據：老師講義 Chapter 8 Conversion of Analog Signals to Digital Format（8.1–8.9）｜更新：2026-11-17
 
 ## 重點摘要
 
@@ -140,29 +140,34 @@ $$
 **μ-law（北美、加拿大、日本，$\mu = 255$）**
 
 $$
-y = y_{max}\frac{\ln(1+\mu\lvert x\rvert/x_{max})}{\ln(1+\mu)}\,\text{sgn}(x), \qquad x = \frac{x_{max}}{\mu}\left[(1+\mu)^{\lvert y\rvert/y_{max}} - 1\right]\text{sgn}(y)
+y = x_{max}\frac{\ln(1+\mu\lvert x\rvert/x_{max})}{\ln(1+\mu)}\,\text{sgn}(x), \qquad x = \frac{x_{max}}{\mu}\left[(1+\mu)^{\lvert y\rvert/x_{max}} - 1\right]\text{sgn}(y)
 $$
 
 **A-law（歐洲與其他地區，$A = 87.6$）**
 
 $$
-y = \begin{cases} y_{max}\dfrac{A(\lvert x\rvert/x_{max})}{1+\ln A}\,\text{sgn}(x), & 0 \le \dfrac{\lvert x\rvert}{x_{max}} \le \dfrac{1}{A} \\[2ex] y_{max}\dfrac{1+\ln(A\lvert x\rvert/x_{max})}{1+\ln A}\,\text{sgn}(x), & \dfrac{1}{A} \le \dfrac{\lvert x\rvert}{x_{max}} \le 1 \end{cases}
+y = \begin{cases} x_{max}\dfrac{A(\lvert x\rvert/x_{max})}{1+\ln A}\,\text{sgn}(x), & 0 \le \dfrac{\lvert x\rvert}{x_{max}} \le \dfrac{1}{A} \\[2ex] x_{max}\dfrac{1+\ln(A\lvert x\rvert/x_{max})}{1+\ln A}\,\text{sgn}(x), & \dfrac{1}{A} \le \dfrac{\lvert x\rvert}{x_{max}} \le 1 \end{cases}
 $$
 
 | 符號 | 意義 | 單位 |
 |---|---|---|
 | $\mu,\ A$ | 壓縮參數；$\mu = 0$、$A = 1$ 都等於均勻量化 | — |
-| $x,\ y$ | 壓縮器輸入、輸出 | V |
+| $x,\ y$ | 壓縮器輸入、輸出（輸出也以 $x_{max}$ 為滿刻度） | V |
+| $x_{max}$ | 輸入（及輸出）峰值 | V |
 
 $$
-\text{SQNR}_{\mu} \approx 6m + 4.77 - 20\log_{10}[\ln(1+\mu)] \xrightarrow{\mu = 255} 6m - 10\ \text{dB}
+\text{SQNR}_{\mu} = 6m + 4.77 - 20\log_{10}[\ln(1+\mu)] - 10\log_{10}\!\left[1 + \left(\frac{x_{max}}{\mu\sigma_x}\right)^2 + \sqrt{2}\,\frac{x_{max}}{\mu\sigma_x}\right] \quad \text{（Laplacian 訊號）}
 $$
 
 $$
-\text{SQNR}_{A} = 6m + 4.77 - 20\log_{10}(1+\ln A) \xrightarrow{A = 87.6} 6m - 10\ \text{dB}
+\text{SQNR}_{\mu} \approx 6m + 4.77 - 20\log_{10}[\ln(1+\mu)] \xrightarrow{\mu = 255} 6m + 4.77 - 14.87 \approx 6m - 10\ \text{dB} \quad (\mu \gg 1)
 $$
 
-<!-- TODO: 待確認：式 (8.50)（Laplacian 訊號下 μ-law 的完整 SQNR，含 x_max/σ_x 項）文字擷取破損，只整理了 μ ≫ 1 的近似式 (8.51)。 -->
+$$
+\text{SQNR}_{A} = 6m + 4.77 - 20\log_{10}(1+\ln A) \xrightarrow{A = 87.6} 6m + 4.77 - 14.76 \approx 6m - 10\ \text{dB}
+$$
+
+> 完整式中 $x_{max}/\sigma_x$ 項被 $\mu$ 除，所以 $\mu$ 越大，SQNR 對訊號統計（$x_{max}/\sigma_x$）越不敏感。
 
 - 壓縮器 → 均勻量化 → （接收端）擴展器，壓縮＋擴展合稱**壓伸器（compander）**。
 - 實際 PCM 用**分段線性**近似 μ = 255 曲線：8 段、每段 16 階、相鄰段步階加倍；8 bit 碼字＝1 bit 正負號＋3 bit 段號＋4 bit 段內位準。
@@ -247,16 +252,28 @@ $$
 - **適應性 DM（ADM）**：平緩段縮小 $\Delta$、陡峭段加大 $\Delta$。
 - **CVSD**：看最近 3 個輸出位元，3 個相同（陡峭）時 $\alpha[n] = 1$ 加大步階，否則以 $\beta$（0.9～0.995）衰減，但不低於 $\Delta_{min}$；屬於「加法增加、乘法減少」演算法，用於軍用戰術通訊與藍牙。
 
-<!-- TODO: 待確認：CVSD 步階更新式 (8.84) 中與 α[n] 相乘的常數符號在文字擷取中破損（Δ_max 或 Δ_0），故未列出公式。 -->
+$$
+\Delta_{min} \le \Delta[n] \le \Delta_{max}, \qquad \Delta[n] = \beta\,\Delta[n-1] + \alpha[n]\,\Delta_{max}
+$$
+
+$$
+\alpha[n] = y[n]\,y[n-1]\,y[n-2] \oplus \bar{y}[n]\,\bar{y}[n-1]\,\bar{y}[n-2]
+$$
+
+| 符號 | 意義 | 單位 |
+|---|---|---|
+| $\Delta_{max},\ \Delta_{min}$ | 步階上、下限（$\Delta_{max}$ 控制斜率過載、$\Delta_{min}$ 決定顆粒雜訊） | V |
+| $\beta$ | 步階衰減係數，0.9～0.995 | — |
+| $\alpha[n]$ | 斜率過載偵測結果（0 或 1），$\oplus$ 為 XOR | — |
 
 ### 8.8 Σ-Δ 調變（一階）
 
 $$
-y[n] = x[n-1] + e[n] - e[n-1], \qquad H_s(z) = z^{-1}, \qquad H_n(z) = 1 - z^{-1}
+y[n] = x[n-1] + e[n] - e[n-1], \qquad H_s(z) = z^{-1}, \qquad H_e(z) = 1 - z^{-1}
 $$
 
 $$
-\lvert H_n(f)\rvert^2 = 4\sin^2\!\left(\frac{\pi f}{f_s}\right), \qquad G_e(f) = \frac{\Delta^2}{12f_s}
+\lvert H_e(f)\rvert^2 = 4\sin^2\!\left(\frac{\pi f}{f_s}\right), \qquad G_e(f) = \frac{\Delta^2}{12f_s}
 $$
 
 $$
@@ -265,7 +282,7 @@ $$
 
 | 符號 | 意義 | 單位 |
 |---|---|---|
-| $H_s,\ H_n$ | 訊號、雜訊轉移函數 | — |
+| $H_s,\ H_e$ | 訊號、雜訊轉移函數 | — |
 | $G_e(f)$ | 量化雜訊功率頻譜密度 | V²/Hz |
 
 > 積分器從 DM 的回授路徑移到前向路徑；雜訊被一階差分器**塑形（noise shaping）**推到高頻，再由數位低通濾掉。$K$ 每加倍多 9 dB（1.5 bit）；二階 Σ-Δ 每倍頻多 15 dB（2.5 bit）。訊號功率以峰值 $\Delta/2$ 的正弦波計算。

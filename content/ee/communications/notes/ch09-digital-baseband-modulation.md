@@ -1,6 +1,6 @@
 # Ch.9 數位基頻調變
 
-> 依據：老師講義 Chapter 9 Digital Baseband Modulation（9.1–9.9）｜更新：2026-11-15
+> 依據：老師講義 Chapter 9 Digital Baseband Modulation（9.1–9.9）｜更新：2026-11-17
 
 ## 重點摘要
 
@@ -111,9 +111,13 @@ $$
 G_{\text{bipolar RZ}}(f) = \frac{A^2}{4R_b}\text{sinc}^2\!\left(\frac{f}{2R_b}\right)\sin^2\!\left(\frac{\pi f}{R_b}\right)
 $$
 
-<!-- TODO: 待確認：雙極性 NRZ 的 PSD 式 (9.48) 係數在文字擷取中無法辨認（A²/R_b 或 A²/4R_b），故未列出。 -->
+$$
+G_{\text{bipolar NRZ}}(f) = \frac{A^2}{4R_b}\text{sinc}^2\!\left(\frac{f}{R_b}\right)\sin^2\!\left(\frac{\pi f}{R_b}\right) \quad \text{（課本式 9.48 原式）}
+$$
 
-> 💡 補充說明（AI）：把 NRZ 方波 $\lvert V(f)\rvert^2 = T_b^2\text{sinc}^2(fT_b)$ 代入上面的雙極性通式，會得到 $\dfrac{A^2}{R_b}\text{sinc}^2(f/R_b)\sin^2(\pi f/R_b)$，請對照講義確認。
+> 💡 補充說明（AI）：把 NRZ 方波 $\lvert V(f)\rvert^2 = T_b^2\text{sinc}^2(fT_b)$ 代入上面的雙極性通式，會得到 $\dfrac{A^2}{R_b}\text{sinc}^2(f/R_b)\sin^2(\pi f/R_b)$，係數與課本的 $A^2/4R_b$ 不同。
+
+<!-- TODO: 待確認：課本式 (9.48)（p.502，verify/ch09/p014.png）印 A²/(4R_b)，但用同頁 (9.45) 代入 NRZ 方波 V(f) = T_b sinc(fT_b) 推得 A²/R_b（同法代 RZ 脈波可正確得到 (9.47) 的 A²/4R_b）；Figure 9.9 的 NRZ 峰值也與兩者都不完全吻合。課本本身前後不一致，待老師確認係數。 -->
 
 **曼徹斯特碼**
 
@@ -304,7 +308,7 @@ $$
 3. 自我同步擾碼器（例 9.3，$c_n = b_n \oplus c_{n-2} \oplus c_{n-5}$，初值全 0）：逐位元列表計算 $c_n$。
 
 > 對答案用：例 9.2 初始 $x_{n-1} = 0, x_{n-2} = 0, x_{n-3} = 1$，輸出 $1011100$ 重複，週期 7。
-> 💡 補充說明（AI）：例 9.3 輸入 $100000000000$ 依上式計算得 $c_n = 101011101100$（AI 計算，未經核對），可看出 11 個連續 0 被打散。
+> 例 9.3（45 octal → $g(D) = 1 \oplus D^2 \oplus D^5$）輸入 $100000000000$，課本 Table 9.5 得 $c_n = 101011101100$，可看出 11 個連續 0 被打散。
 
 ### 題型五：頻寬估算（例 9.4）
 
